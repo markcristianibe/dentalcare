@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2022 at 07:38 AM
+-- Generation Time: Apr 29, 2022 at 10:39 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.28
 
@@ -35,6 +35,15 @@ CREATE TABLE `tbl_activitylog` (
   `Status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tbl_activitylog`
+--
+
+INSERT INTO `tbl_activitylog` (`ID`, `TimeStamp`, `Username`, `Description`, `Status`) VALUES
+(37, '2022-04-29 06:31:44', '1', 'Admitted Appointment: Jelo Sy', 'unread'),
+(38, '2022-04-29 06:33:00', '1', 'Rescheduled Appointment: Lordvernar Kambao', 'unread'),
+(39, '2022-04-29 06:33:03', '1', 'Admitted Appointment: Lordvernar Kambao', 'unread');
+
 -- --------------------------------------------------------
 
 --
@@ -57,8 +66,8 @@ CREATE TABLE `tbl_appointment` (
 --
 
 INSERT INTO `tbl_appointment` (`ID`, `Patient_ID`, `Description`, `Date`, `Start`, `End`, `Incharge`, `Status`) VALUES
-(22042610, 10, '', '2022-04-29', '14:00:00', '15:00:00', 0, 'pending'),
-(22043013, 13, '', '2022-04-27', '10:00:00', '12:00:00', 0, 'approved');
+(22042610, 10, '', '2022-04-30', '14:00:00', '15:00:00', 0, 'approved'),
+(22043013, 13, '', '2022-04-29', '10:00:00', '12:00:00', 1, 'approved');
 
 -- --------------------------------------------------------
 
@@ -86,6 +95,36 @@ INSERT INTO `tbl_appointmentservice` (`ID`, `Appointment_ID`, `Service_ID`) VALU
 (17, 22042513, 8),
 (18, 22043013, 12),
 (19, 22042610, 65);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_batches`
+--
+
+CREATE TABLE `tbl_batches` (
+  `Batch_No` int(11) NOT NULL,
+  `Product_ID` int(11) NOT NULL,
+  `Quantity` int(11) NOT NULL,
+  `Expiry_Date` date NOT NULL,
+  `Date_of_Inventory` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_medications`
+--
+
+CREATE TABLE `tbl_medications` (
+  `Product_ID` int(11) NOT NULL,
+  `Brand` varchar(150) NOT NULL,
+  `Name` varchar(150) NOT NULL,
+  `Category` varchar(100) NOT NULL,
+  `Par_Stock_Level` int(5) NOT NULL,
+  `Unit` int(10) NOT NULL,
+  `Price` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -226,6 +265,21 @@ INSERT INTO `tbl_services` (`Service_ID`, `Category`, `Service_Description`, `Ch
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_supplies`
+--
+
+CREATE TABLE `tbl_supplies` (
+  `Product_ID` int(11) NOT NULL,
+  `Product_Name` varchar(150) NOT NULL,
+  `Category` varchar(100) NOT NULL,
+  `Stocks` int(12) NOT NULL,
+  `Par_Stock_Level` int(5) NOT NULL,
+  `Date_Stored` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_usr`
 --
 
@@ -276,6 +330,18 @@ ALTER TABLE `tbl_appointmentservice`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `tbl_batches`
+--
+ALTER TABLE `tbl_batches`
+  ADD PRIMARY KEY (`Batch_No`);
+
+--
+-- Indexes for table `tbl_medications`
+--
+ALTER TABLE `tbl_medications`
+  ADD PRIMARY KEY (`Product_ID`);
+
+--
 -- Indexes for table `tbl_patientinfo`
 --
 ALTER TABLE `tbl_patientinfo`
@@ -294,6 +360,12 @@ ALTER TABLE `tbl_services`
   ADD PRIMARY KEY (`Service_ID`);
 
 --
+-- Indexes for table `tbl_supplies`
+--
+ALTER TABLE `tbl_supplies`
+  ADD PRIMARY KEY (`Product_ID`);
+
+--
 -- Indexes for table `tbl_usr`
 --
 ALTER TABLE `tbl_usr`
@@ -307,13 +379,25 @@ ALTER TABLE `tbl_usr`
 -- AUTO_INCREMENT for table `tbl_activitylog`
 --
 ALTER TABLE `tbl_activitylog`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `tbl_appointmentservice`
 --
 ALTER TABLE `tbl_appointmentservice`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `tbl_batches`
+--
+ALTER TABLE `tbl_batches`
+  MODIFY `Batch_No` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_medications`
+--
+ALTER TABLE `tbl_medications`
+  MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_patientinfo`
@@ -332,6 +416,12 @@ ALTER TABLE `tbl_patientrecord`
 --
 ALTER TABLE `tbl_services`
   MODIFY `Service_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+
+--
+-- AUTO_INCREMENT for table `tbl_supplies`
+--
+ALTER TABLE `tbl_supplies`
+  MODIFY `Product_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_usr`
