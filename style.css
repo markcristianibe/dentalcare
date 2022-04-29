@@ -1,0 +1,240 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.hide-scroll{
+	overflow: hidden;
+}
+.img-1-bg{
+	background-image: url("img/slide-2.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.mobile{
+	display: none;
+}
+.desktop{
+	display: block;
+}
+.carousel-item{
+	height: 100vh;
+	min-height: 300px;
+	background: no-repeat center center scroll;
+	background-size: cover;
+	-webkit-background-size: cover;	
+}
+.carousel-caption{
+	bottom: 220px;
+
+}
+.carousel-caption h5{
+	font-size: 45px;
+	letter-spacing: 2px;
+	margin-top: 25px;
+    text-shadow: 2px 2px dimgray;
+}
+.carousel-caption p{
+	width: 60%;
+	margin: auto;
+	font-size: 24px;
+	line-height: 1.9;
+    text-shadow: 1px 1px dimgray;
+}
+.carousel-caption button{
+	background: dodgerblue;
+	padding: 10px 30px;
+	display: inline-block;
+	color: #fff;
+	margin-top: 15px; 
+	border: none;
+	border-radius: 10px;
+}
+.carousel-caption button:hover{
+	text-decoration: none;
+	background: #9C14AD;
+	transform: scale(1.5);
+    transition: 0.5s;
+    transition-property: all;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+.nav-link .navbar-brand{
+	color: white !important;
+	font-weight: bold;
+    text-shadow: 1px 1px dimgray;
+}
+.nav-link:hover{
+	color: #9C14AD !important;
+	transform: scale(1.1);
+    transition: 0.5s;
+    transition-property: all;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+#join:hover{
+	background: #9C14AD !important;
+	color: white;
+	border: none;
+	transform: scale(1.3);
+    transition: 0.5s;
+    transition-property: all;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+.navbar-nav a{
+	color: white !important;
+	font-size: 18px;
+	text-transform: uppercase;
+	font-weight: bold;
+    text-shadow: 1px 1px dimgray;
+}
+.navbar-dark .navbar-brand{
+	color: white;
+	font-size: 25px;
+    text-shadow: 1px 1px dimgray;
+	text-transform: uppercase !important;
+	letter-spacing: 5px !important;
+} 
+.nav-link{
+	padding: .2rem 1rem;
+	text-align: right;
+	margin-right: 10px;
+}
+#join{
+	padding: .2rem 1rem;
+	float: right;
+	margin: 0px 10px 10px 10px;
+}
+.w-100{
+	height: 100vh;
+}
+.center-image{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	width: 70%;
+}
+.col-sm{
+	padding: 30px;
+}
+.product-item{
+	background-color: white; 
+	border-radius: 15px; 
+	color: black; 
+	box-shadow: 0 10px 20px rgba(0,0.05,0,0.3); 
+	padding-top: 10px; 
+	border: 1px solid gray;
+}
+.mobile-view{
+	display: none;
+}
+.container-fluid{
+	background-color: rgba(255, 255, 255, 0.945);
+	padding: 10px 15px;
+	position: absolute;
+	margin: auto;
+	margin-top: 20px;
+	border-radius: 20px;
+	text-align: center;
+	color: rgb(51, 51, 51);
+}
+.container-fluid h2, p{
+	font-family: 'Nunito', sans-serif;
+	margin-left: 20px;
+}
+
+.container-fluid h3{
+	text-align: center;
+	color: dimgray;
+	font-family: 'Nunito', sans-serif;
+}
+
+.user-profile-image{
+	width: 100px;
+	display: block;
+	margin: auto;
+	margin-top: -50px;
+}
+
+.form-control{
+	display: block;
+	margin: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 18px;
+	border: 0;
+	box-shadow: 2px 3px 3px #ddd;
+	font-family: 'Font Awesome 5 Free', sans-serif;
+	font-weight: 510;
+}
+
+.form-control:hover{
+	font-size: 22px;
+}
+
+.fontawesome{
+	font-family: 'Font Awesome 5 Free', sans-serif;
+	font-weight: 510;
+	color: dimgray;
+	font-size: 20px;
+}
+
+#show-psw-btn{
+	border: none;
+	float: right;
+	margin-top: -46px;
+	margin-right: 50px;
+	background-color: #fff;
+}
+
+.fontawesome:hover{
+	color: #0a0045;
+	font-size: 22px;
+}
+@media only screen and (max-width: 980px){
+	.navbar-nav.ml-auto{
+		background: rgba(0, 0, 0, 0.7);
+		margin-top: 5px;
+		border-top-left-radius: 15px;
+		border-bottom-left-radius: 15px;
+		border-bottom-right-radius: 15px;
+	}
+	.navbar-toggler{
+		padding: 1px 5px;
+		font-size: 18px;
+		line-height: 0.3;
+	}
+	#join{
+		padding: .2rem 1rem;
+		float: right;
+		margin: 10px 10px 10px 10px;
+	}
+	.nav-link:hover{
+		color: #9C14AD !important;
+		transform: scale(0.95);
+	    transition: 0.5s;
+	    transition-property: all;
+	    transition-timing-function: ease;
+	    transition-delay: 0s;
+	}
+	#join:hover{
+		background: #9C14AD !important;
+		color: white;
+		border: none;
+		transform: scale(0.95);
+	    transition: 0.5s;
+	    transition-property: all;
+	    transition-timing-function: ease;
+	    transition-delay: 0s;
+	}
+}
+@media only screen and (max-width: 770px)
+{
+	.webview{
+		display: none;
+	}
+	.mobile-view{
+		display: block;
+	}
+}

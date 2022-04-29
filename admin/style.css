@@ -1,0 +1,142 @@
+body, html{
+	/*background-color: #0a0045;*/
+	background-image: linear-gradient(to bottom right, rgba(0, 9, 51, 0.9), rgba(0, 152, 223, 0.8) ),
+    url('../img/slide-3.jpg');
+	background-position: center;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.content{
+	background-color: #f3f3f3;
+	padding: 0 10px;
+	border-radius: 20px;
+	box-shadow: 5px 6px 6px #04001c;
+	width: 400px;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.content h2, p{
+	font-family: 'Nunito', sans-serif;
+	margin-left: 20px;
+}
+
+.content h3{
+	text-align: center;
+	color: dimgray;
+	font-family: 'Nunito', sans-serif;
+}
+
+.user-profile-image{
+	width: 100px;
+	display: block;
+	margin: auto;
+	margin-top: -50px;
+}
+
+.input-control{
+	width: 90%;
+	display: block;
+	margin: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 18px;
+	padding: 15px 20px 15px 20px;
+	border-radius: 30px;
+	background-color: white;	
+	border: 0;
+	box-shadow: 2px 3px 3px #ddd;
+	font-family: 'Font Awesome 5 Free', sans-serif;
+	font-weight: 510;
+}
+
+.input-control:hover{
+	width: 95%;
+	font-size: 22px;
+}
+
+.fontawesome{
+	font-family: 'Font Awesome 5 Free', sans-serif;
+	font-weight: 510;
+	color: dimgray;
+	font-size: 20px;
+}
+
+#show-psw-btn{
+	border: none;
+	float: right;
+	margin-top: -46px;
+	margin-right: 50px;
+	background-color: #fff;
+}
+
+.fontawesome:hover{
+	color: #0a0045;
+	font-size: 22px;
+}
+
+.cols{
+	width: 90%;
+	display: block;
+	margin: auto;
+	margin-bottom: 10px;
+	font-size: 18px;
+	padding: 0 15px 0 15px;
+	font-family: 'Nunito', sans-serif;
+}
+
+.button{
+	width: 90%;
+	display: block;
+	margin: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 18px;
+	padding: 15px 20px 15px 20px;
+	border-radius: 30px;
+	background-color: dodgerblue;	
+	color: white;
+	border: 0;
+	box-shadow: 2px 3px 3px #ddd;
+}
+
+.button:hover{
+	background-color: purple;
+	width: 95%;
+	font-size: 22px;
+}
+
+.hyperlink{
+	width: 100%;
+	display: block;
+	text-align: center;
+	text-align: center;
+	text-decoration: none;
+	font-family: 'Nunito', sans-serif;
+	color: #0f0f0f;
+}
+
+.hyperlink:hover{
+	color: red;
+	font-weight: 700;
+}
+
+label:hover{
+	font-size: 20px;
+	color: #04001c;
+}
+
+#checkbox{
+	background-color: red;
+}
