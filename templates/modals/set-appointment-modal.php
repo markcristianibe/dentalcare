@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="col">
                     <small>Patient Name:<span class="text-danger"> *</span></small>
-                    <input type="text" id="form-autocomplete" name="id" class="form-control" list="patient-list" placeholder="Type Patient Name or Patient ID..." required>
+                    <input type="text" id="form-autocomplete" name="id" class="form-control" list="patient-list" placeholder="Type Patient Name or Patient ID..." autocomplete="off" required>
                     <datalist id="patient-list">
                         <?php
                         

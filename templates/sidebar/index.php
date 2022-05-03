@@ -51,7 +51,7 @@
             </a>
           </li>
           <li>
-            <a href="homepage.php?page=inventory" id="inventory-btn" class="nav-link text-white">
+            <a href="homepage.php?page=invoices" id="invoice-btn" class="nav-link text-white">
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#sack-dollar"/></svg>
               Invoice
             </a>
@@ -70,7 +70,7 @@
             <strong><?php echo $row["Firstname"] . " " . $row["Lastname"]; ?></strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-light text-small shadow" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item" href="#">Add Account</a></li>
+            <li><a class="dropdown-item" href="#">Manage Accounts</a></li>
             <li><a class="dropdown-item" href="#">Settings</a></li>
             <li><a class="dropdown-item" href="#">Profile</a></li>
             <li><hr class="dropdown-divider"></li>

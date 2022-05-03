@@ -225,7 +225,7 @@
         $patientName = mysqli_fetch_assoc(mysqli_query($conn, "SELECT tbl_patientinfo.Firstname, tbl_patientinfo.Lastname from tbl_patientinfo, tbl_appointment WHERE tbl_appointment.ID = '". $_POST["deleteApt"] ."' AND tbl_appointment.Patient_ID = tbl_patientinfo.Patient_ID"));
         recordLog($conn, "Deleted Appointment: " . $patientName["Firstname"] . " " . $patientName["Lastname"]);
 
-        $sql = "DELETE FROM tbl_appointment WHERE ID = '".$_POST["deleteApt"]."'";
+        $sql = "UPDATE tbl_appointment SET Status = 'deleted' WHERE ID = '".$_POST["deleteApt"]."'";
         if(mysqli_query($conn, $sql))
         {
             header("location: ../admin/homepage.php?page=appointments");
@@ -235,7 +235,7 @@
     //admit appointment...
     if(isset($_POST["admitApt"]))
     {
-        $sql = "UPDATE tbl_appointment SET Status = 'approved' WHERE ID = '".$_POST["admitApt"]."'";
+        $sql = "UPDATE tbl_appointment SET Incharge = '". $_SESSION["adminUser"] ."', Status = 'approved' WHERE ID = '".$_POST["admitApt"]."'";
         if(mysqli_query($conn, $sql))
         {
             $patientName = mysqli_fetch_assoc(mysqli_query($conn, "SELECT tbl_patientinfo.Firstname, tbl_patientinfo.Lastname from tbl_patientinfo, tbl_appointment WHERE tbl_appointment.ID = '". $_POST["admitApt"] ."' AND tbl_appointment.Patient_ID = tbl_patientinfo.Patient_ID"));
@@ -251,6 +251,117 @@
         $sql = "DELETE FROM tbl_activitylog";
         if(mysqli_query($conn, $sql))
         {
+            
+        }
+    }
+
+    //add new supply...
+    if(isset($_POST["add-supply"]))
+    {
+        $supplyCategory = mysqli_real_escape_string($conn, $_POST["supply-category"]);
+        $productName = mysqli_real_escape_string($conn, $_POST["supply-name"]);
+        $stocks = mysqli_real_escape_string($conn, $_POST["stocks"]);
+        $psl = mysqli_real_escape_string($conn, $_POST["psl"]);
+
+        $sql = "INSERT INTO tbl_supplies (Category, Product_Name, Stocks, Par_Stock_Level) VALUES ('$supplyCategory', '$productName', '$stocks', '$psl')";
+        if(mysqli_query($conn, $sql))
+        {
+            recordLog($conn, "Added a new item to inventory: " . $productName);
+            header("location: ../admin/homepage.php?page=inventory&tab=supplies");
+        }
+    }
+
+    //add supply stock...
+    if(isset($_POST["add-supplies-stock"]))
+    {
+        $pid = mysqli_real_escape_string($conn, $_GET["id"]);
+        $quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
+
+        $row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM tbl_supplies WHERE Product_ID = '$pid'"));
+        $old = $row["Stocks"];
+        $new = $old + $quantity;
+        
+        $sql = "UPDATE tbl_supplies SET Stocks = '$new' WHERE Product_ID = '$pid'";
+        if(mysqli_query($conn, $sql))
+        {
+            recordLog($conn, "Added supply stock for ". $row["Product_Name"] . ". New stocks is " . $new);
+            header("location: ../admin/homepage.php?page=inventory&tab=supplies");
+        }
+    }
+
+    //edit supply information...
+    if(isset($_POST["edit-supply"]))
+    {
+        $id = mysqli_real_escape_string($conn, $_GET["id"]);
+        $supplyCategory = mysqli_real_escape_string($conn, $_POST["supply-category"]);
+        $productName = mysqli_real_escape_string($conn, $_POST["supply-name"]);
+        $stocks = mysqli_real_escape_string($conn, $_POST["stocks"]);
+        $psl = mysqli_real_escape_string($conn, $_POST["psl"]);
+
+        $sql = "UPDATE tbl_supplies SET Category = '$supplyCategory', Product_Name = '$productName', Stocks = '$stocks', Par_Stock_Level = '$psl' WHERE Product_ID = '$id'";
+        if(mysqli_query($conn, $sql))
+        {
+            recordLog($conn, "Changed item information in supplies inventory.");
+            header("location: ../admin/homepage.php?page=inventory&tab=supplies");
+        }
+    }
+
+    //delete item from supplies inventory...
+    if(isset($_POST["action"]) && $_POST["action"] == "delete-supply-item")
+    {
+        $id = mysqli_real_escape_string($conn, $_POST["productId"]);
+
+        $item = mysqli_query($conn, "SELECT * FROM tbl_supplies WHERE Product_ID = '$id'");
+        $row = mysqli_fetch_assoc($item);
+        recordLog($conn, "Removed item from supplies inventory: " . $row["Product_Name"]);
+        $sql = "DELETE FROM tbl_supplies WHERE Product_ID = '$id'";
+        mysqli_query($conn, $sql);
+    }
+
+    //add new medicine...
+    if(isset($_POST["addMedication"]))
+    {
+        $brand = mysqli_real_escape_string($conn, $_POST["brand"]);
+        $name = mysqli_real_escape_string($conn, $_POST["name"]);
+        $dosage = mysqli_real_escape_string($conn, $_POST["dosage"]);
+        $price = mysqli_real_escape_string($conn, $_POST["price"]);
+        $psl = mysqli_real_escape_string($conn, $_POST["psl"]);
+        
+        if($brand != "" && $name != "" && $dosage !="" && $price != "" && $psl != "")
+        {
+            $sql = "INSERT INTO tbl_medications (Brand, Name, Unit, Price, Par_Stock_Level) VALUES ('$brand', '$name', '$dosage', '$price', '$psl')";
+            if(mysqli_query($conn, $sql))
+            {
+                recordLog($conn, "Added new item in medicines inventory.");
+                header("location: ../admin/homepage.php?page=inventory&tab=medications");
+            }
+        }
+        else
+        {
+            header("location: ../admin/homepage.php?page=inventory&tab=medications&error=1");
+        }
+    }
+
+    //add batch...
+    if(isset($_POST["addBatch"]))
+    {
+        $pid = mysqli_real_escape_string($conn, $_POST["id"]);
+        $quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
+        $exp = mysqli_real_escape_string($conn, $_POST["expiry"]);
+
+        if($pid != "" && $quantity != "" && $exp != "")
+        {
+            $sql = "INSERT INTO tbl_batches (Product_ID, Quantity, Expiry_Date) VALUES ('$pid', '$quantity', '$exp')";
+            if(mysqli_query($conn, $sql))
+            {
+                $name = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM tbl_medications WHERE Product_ID = '$pid'"));
+                recordLog($conn, "Added new batches of medicines in inventory: " . $name["Brand"] . " " . $name["Name"] . " " . $name["Unit"]);
+                header("location: ../admin/homepage.php?page=inventory&tab=medications");
+            }
+        }
+        else
+        {
+            header("location: ../admin/homepage.php?page=inventory&tab=medications&error=1");
         }
     }
 ?>

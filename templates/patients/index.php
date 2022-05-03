@@ -43,7 +43,7 @@
     <h3 style="color: dodgerblue">Patients List</h3>
 
     <div class="container">
-      <div class="form"> <i class="fa fa-search"></i> <input type="text" id="txt-search" class="form-control form-input" placeholder="Search Patient ID or Name..."> <span class="left-pan"></span> </div>
+      <div class="form"> <i class="fa fa-search"></i> <input type="text" id="txt-search" class="form-control form-input" placeholder="Search Patient ID or Name..."  autocomplete="off"> <span class="left-pan"></span> </div>
       <hr class="dropdown-divider">
     </div>
 
@@ -166,7 +166,7 @@
     } 
     .container-fluid {
         position: relative;
-        width: 100%;
+        width: auto;
         height: 440px;
         overflow: auto;
         display: block;

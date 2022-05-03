@@ -65,6 +65,7 @@ if(!isset($_SESSION["adminUser"]))
       include("../templates/sidebar/index.php");
       include("../templates/modals/add-patient-modal.php");
       include("../templates/modals/add-service-modal.php");
+      include("../templates/modals/add-supplies-modal.php");
     ?>
 
       <div class="b-example-divider"></div>
