@@ -73,7 +73,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-7">
-            <div class="form"> <i class="fa fa-search fa-icon"></i> <input type="text" id="txt-search" class="form-control form-input" placeholder="Search for Service Description..."> <span class="left-pan">Search</span> </div>
+            <div class="form"> <i class="fa fa-search fa-icon"></i> <input type="text" id="txt-search" class="form-control form-input" placeholder="Search for Service Description..." autocomplete="off"> <span class="left-pan">Search</span> </div>
         </div>
         <div class="col-md-5">
             <div class="form">  
