@@ -1,4 +1,4 @@
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> 
 <script>
     document.getElementById("patientsbtn").classList.add("active")
 
@@ -17,15 +17,17 @@
     }
 
     $(document).ready(function(){
-        $("#txt-search").keyup(function(){
+        $("#txt-search-patient").keyup(function(){
             var txt = $(this).val();
             $.ajax({
                 method: 'post',
                 url: '../templates/patients/search-patient.php',
-                data: {search: txt},
+                data: {
+                    search: txt
+                },
                 datatype: "text",
                 success: function(data){
-                    $("#table-data").html(data);
+                    $("#table_data").html(data);
                 }
             });
         });
@@ -43,7 +45,7 @@
     <h3 style="color: dodgerblue">Patients List</h3>
 
     <div class="container">
-      <div class="form"> <i class="fa fa-search"></i> <input type="text" id="txt-search" class="form-control form-input" placeholder="Search Patient ID or Name..."> <span class="left-pan"></span> </div>
+      <div class="form"> <i class="fa fa-search"></i> <input type="text" id="txt-search-patient" class="form-control form-input" placeholder="Search Patient ID or Name..."  autocomplete="off"> <span class="left-pan"></span> </div>
       <hr class="dropdown-divider">
     </div>
 
@@ -60,14 +62,15 @@
                 <th scope="col">Actions</th>
                 </tr>
             </thead>
-            <tbody id="table-data">
-            <script>
-                function showDialog(id, fullname)
-                {
-                    document.getElementById("delete-modal-body").innerHTML = "Are you sure you want to remove <b>" + fullname + "</b> records? <br> Note: This action cannot be undone.";
-                    document.getElementById("del-btn-yes").href = "../server/action.php?event=del&id=" + id;
-                }
-            </script>
+            <tbody id="table_data">
+                <script>
+                    function showDialog(id, fullname)
+                    {
+                        document.getElementById("delete-modal-body").innerHTML = "Are you sure you want to remove <b>" + fullname + "</b> records? <br> Note: This action cannot be undone.";
+                        document.getElementById("del-btn-yes").href = "../server/action.php?event=del&id=" + id;
+                    }
+                </script>
+
                 <?php
                 include("../templates/modals/delete-patient-confirmation-modal.php");
                 if(mysqli_num_rows($result) > 0)
@@ -84,6 +87,7 @@
                         <td><?php echo $patient["Address"]; ?></td>
                         <td><?php echo $patient["Contact"]; ?></td>
                         <td>
+                            <a href='homepage.php?page=patient-record&id=<?php echo $patient["Patient_ID"]; ?>' class='circle btn btn-primary'><i class="fa fa-clipboard"></i></a>
                             <a href='homepage.php?page=patient-info&id=<?php echo $patient["Patient_ID"]; ?>' class='circle btn btn-success'><i class="fa fa-pen"></i></a>
                             <a href='#' class='circle btn btn-danger' data-bs-toggle='modal' data-bs-target='#delete-patient-msgBox' onclick='showDialog(<?php echo $patient["Patient_ID"]; ?>, "<?php echo $patient["Firstname"] . " " . $patient["Lastname"]; ?>")'><i class="fa fa-trash"></i></a>
                         </td>
@@ -166,7 +170,7 @@
     } 
     .container-fluid {
         position: relative;
-        width: 100%;
+        width: auto;
         height: 440px;
         overflow: auto;
         display: block;

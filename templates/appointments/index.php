@@ -170,7 +170,7 @@
               data: { id: aId },
               datatype: "text",
               success: function(data){
-                $("#modal-content").html(data);
+                $("#apt-modal-content").html(data);
               }
           });
           $("#appointment-event-clicked").modal("show");
@@ -210,7 +210,7 @@ if(isset($_GET["return"]))
 
 <div class="modal fade" id="appointment-event-clicked" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div id="modal-content" class="modal-content" style="color: black">
+    <div id="apt-modal-content" class="modal-content" style="color: black">
       
     </div>
   </div>
