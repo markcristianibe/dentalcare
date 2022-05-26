@@ -17,7 +17,7 @@
     }
 
     $(document).ready(function(){
-        $("#txt-search").keyup(function(){
+        $("#txtSearch").keyup(function(){
             var txt = $(this).val();
             $.ajax({
                 method: 'post',
@@ -28,7 +28,7 @@
                 },
                 datatype: "text",
                 success: function(data){
-                    $("#table-data").html(data);
+                    $("#table_data").html(data);
                 }
             });
         });
@@ -54,7 +54,7 @@
             },
             datatype: "text",
             success: function(data){
-                $("#table-data").html(data);
+                $("#table_data").html(data);
             }
         });
     }
@@ -73,14 +73,14 @@
     <div class="container">
       <div class="row">
         <div class="col-md-7">
-            <div class="form"> <i class="fa fa-search fa-icon"></i> <input type="text" id="txt-search" class="form-control form-input" placeholder="Search for Service Description..."> <span class="left-pan">Search</span> </div>
+            <div class="form"> <i class="fa fa-search fa-icon"></i> <input type="text" id="txtSearch" class="form-control form-input" placeholder="Search for Service Description..." autocomplete="off"> <span class="left-pan">Search</span> </div>
         </div>
         <div class="col-md-5">
             <div class="form">  
                 <div class="dropdown">
                     <p class="fa fa-icon">&#xf0b0</p>
                     <button class="form-control form-input dropdown-toggle" type="button" id="dropdownFilter" data-bs-toggle="dropdown" aria-expanded="false">Select Service Category...</button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownFilter">
+                    <ul class="dropdown-menu scrollable-dropdown" aria-labelledby="dropdownFilter">
                         <li><a class="dropdown-item" onclick="dropDownCategory('All')">All</a></li>
                         <hr class="dropdown-divider">
                         <li><a class="dropdown-item" onclick="dropDownCategory('Cosmetic Dentistry')">Cosmetic Dentistry</a></li>
@@ -116,7 +116,7 @@
                 <th scope="col">Actions</th>
                 </tr>
             </thead>
-            <tbody id="table-data">
+            <tbody id="table_data">
             <script>
                 function showDialog(id, service)
                 {
@@ -149,13 +149,13 @@
                     {
                         ?>
                         <tr>
-                        <th scope='row'><?php echo $count++; ?></th>
-                        <td><?php echo $service["Service_Description"]; ?></td>
-                        <td>₱<?php echo number_format($service["Charge"]); ?></td>
-                        <td>
-                            <a href='#' class='circle btn btn-success'  data-bs-toggle='modal' data-bs-target='#edit-service-modal' onclick='showEditDialog(<?php echo $service["Service_ID"]; ?>)'><i class="fa fa-pen"></i></a>
-                            <a href='#' class='circle btn btn-danger' data-bs-toggle='modal' data-bs-target='#delete-service-msgBox' onclick='showDialog(<?php echo $service["Service_ID"]; ?>, "<?php echo $service["Service_Description"]; ?>")'><i class="fa fa-trash"></i></a>
-                        </td>
+                            <th scope='row'><?php echo $count++; ?></th>
+                            <td><?php echo $service["Service_Description"]; ?></td>
+                            <td>₱<?php echo number_format($service["Charge"]); ?></td>
+                            <td>
+                                <a href='#' class='circle btn btn-success'  data-bs-toggle='modal' data-bs-target='#edit-service-modal' onclick='showEditDialog(<?php echo $service["Service_ID"]; ?>)'><i class="fa fa-pen"></i></a>
+                                <a href='#' class='circle btn btn-danger' data-bs-toggle='modal' data-bs-target='#delete-service-msgBox' onclick='showDialog(<?php echo $service["Service_ID"]; ?>, "<?php echo $service["Service_Description"]; ?>")'><i class="fa fa-trash"></i></a>
+                            </td>
                         </tr>
                         <?php
                     }
@@ -239,7 +239,7 @@
         overflow: auto;
         display: block;
     }
-    .dropdown-menu {
+    .scrollable-dropdown {
         height: 300px;
         overflow: auto;
     }

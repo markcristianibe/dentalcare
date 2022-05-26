@@ -18,8 +18,9 @@ if(mysqli_num_rows($result) > 0)
         <td><?php echo $row["Address"]; ?></td>
         <td><?php echo $row["Contact"]; ?></td>
         <td>
-            <a href='homepage.php?page=patient-info&id=<?php echo $row["Patient_ID"]; ?>' class='btn btn-success'><i class="fa fa-pen"></i></a>
-            <a href='#' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#delete-patient-msgBox' onclick='showDialog(<?php echo $row["Patient_ID"]; ?>, "<?php echo $row["Firstname"] . " " . $row["Lastname"]; ?>")'><i class="fa fa-trash"></i></a>
+            <a href='homepage.php?page=patient-record&id=<?php echo $row["Patient_ID"]; ?>' class='circle btn btn-primary'><i class="fa fa-clipboard"></i></a>
+            <a href='homepage.php?page=patient-info&id=<?php echo $row["Patient_ID"]; ?>' class='circle btn btn-success'><i class="fa fa-pen"></i></a>
+            <a href='#' class='circle btn btn-danger' data-bs-toggle='modal' data-bs-target='#delete-patient-msgBox' onclick='showDialog(<?php echo $row["Patient_ID"]; ?>, "<?php echo $row["Firstname"] . " " . $row["Lastname"]; ?>")'><i class="fa fa-trash"></i></a>
         </td>
         <?php
     }

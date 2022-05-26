@@ -40,6 +40,7 @@ if(!isset($_SESSION["adminUser"]))
     <style>
       #content{
         overflow-x: hidden;
+        
       }
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -65,26 +66,31 @@ if(!isset($_SESSION["adminUser"]))
       include("../templates/sidebar/index.php");
       include("../templates/modals/add-patient-modal.php");
       include("../templates/modals/add-service-modal.php");
+      include("../templates/modals/add-supplies-modal.php");
     ?>
 
-      <div class="b-example-divider"></div>
-      <div id="content" class="d-flex flex-column flex-shrink-0 text-white" style="width: 79%; background-color: #fff">
-        <?php
-        if(isset($_GET["page"]))
-        {
-          $page = $_GET['page'];
-          $loc = "../templates/" . $page . "/index.php";
-          include($loc);
-        }
-        else
-        {
-          $_GET["page"] = "dashboard";
-          $page = $_GET['page'];
-          $loc = "../templates/" . $page . "/index.php";
-          include($loc);
-        }
-        ?>
-      </div>
+        <div id="content" class="d-flex flex-column flex-shrink-0 text-white" style=" background-color: #ffff; width: 80%">
+          <?php
+          if(isset($_GET["page"]))
+          {
+            $page = $_GET['page'];
+            $loc = "../templates/" . $page . "/index.php";
+            include($loc);
+          }
+          else
+          {
+            include("../server/db_connection.php");
+            $sql = mysqli_query($conn, "SELECT * FROM tbl_userpermissions WHERE User_ID = '".$_SESSION["adminUser"]."' ORDER BY ID");
+            $result = mysqli_fetch_assoc($sql);
+
+            $_GET["page"] = $result["Permission"];
+            $page = $_GET['page'];
+            $loc = "../templates/" . $page . "/index.php";
+            include($loc);
+          }
+          ?>
+        </div>
+      
     </main>
 
     <script src="../includes/bootstrap-5.1.3-dist/js/bootstrap.bundle.js"></script>
