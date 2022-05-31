@@ -38,7 +38,7 @@ if(isset($_POST["action"]) && $_POST["action"] == "searchItem")
     </div>
     <div class="col-md-2">
         <small>Discount: (%)</small>
-        <input id="disc" class="form-control" type="number" min="0" max="99" required>
+        <input id="disc" class="form-control" type="number" value="0" min="0" max="99" required>
     </div>
     <div class="col-md-1">
         <small class="text-light">.</small>

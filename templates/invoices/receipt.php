@@ -3,6 +3,11 @@
         <title>Receipt</title>
         <link href="../../includes/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="../invoices/print.css" media="print">
+        <style>
+            .disclaimer{
+                display: none;
+            }
+        </style>
     </head>
 
     <?php

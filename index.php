@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +16,11 @@
     <script src="includes/bootstrap-5.1.3-dist/js/bootstrap.bundle.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> 
+    <style>
+        .disclaimer{
+            display: none;
+        }
+    </style>
     <title>Dental Care</title>
 </head>
 <body>
@@ -62,7 +72,6 @@
                     <a class="nav-link text-light" href="#contact" onclick="showCOntent()">CONTACT US</a>
                 </li>
                 <?php
-                session_start();
                 if(isset($_SESSION["email"]))
                 {
                     include("server/db_connection.php");
@@ -136,7 +145,7 @@
                     </div>
                     <br>
                     <center>
-                        <button class="btn btn-outline-dark btn-primary text-light" style="padding: 20px 40px; border-radius: 40px; font-size: 24px">Book Appointment <i class="fa fa-solid fa-calendar"></i></button>
+                        <a class="btn btn-outline-dark btn-primary text-light" style="padding: 20px 40px; border-radius: 40px; font-size: 24px" href="#appointment">Book Appointment <i class="fa fa-solid fa-calendar"></i></a>
                     </center>
                 </div>
                 <div class="col-md-5">
@@ -493,13 +502,40 @@
                         <tr class="bg-light">
                             <th><h6 class="text-center">8:00 AM - 9:00 AM</h6></th>
                             <?php
-                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."' AND Start >= '8:00:00' AND End <= '9:00:00'";
+                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."'";
                             $result = mysqli_query($conn, $sql);
                             if(mysqli_num_rows($result) > 0)
                             {
-                                ?>
-                                <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
-                                <?php
+                                $isOccupied = false;
+
+                                while($row = mysqli_fetch_array($result))
+                                {
+                                    $start = date_create($row["Start"]);
+
+                                    if($start >= date_create("08:00:00") && $start <= date_create("09:00:00"))
+                                    {
+                                        $isOccupied = true;
+                                    }
+                                }
+
+                                if($isOccupied)
+                                {
+                                    ?>
+                                    <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <th>
+                                        <center>
+                                            <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('08:00:00', '09:00:00')">
+                                                VACANT
+                                            </button>
+                                        </center>
+                                    </th>
+                                    <?php
+                                }
                             }
                             else
                             {
@@ -518,20 +554,47 @@
                         <tr class="bg-light">
                             <th><h6 class="text-center">9:30 AM - 10:30 AM</h6></th>
                             <?php
-                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."' AND Start >= '9:30:00' AND End <= '10:30:00'";
+                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."'";
                             $result = mysqli_query($conn, $sql);
                             if(mysqli_num_rows($result) > 0)
                             {
-                                ?>
-                                <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
-                                <?php
+                                $isOccupied = false;
+
+                                while($row = mysqli_fetch_array($result))
+                                {
+                                    $start = date_create($row["Start"]);
+
+                                    if($start >= date_create("09:30:00") && $start <= date_create("10:30:00"))
+                                    {
+                                        $isOccupied = true;
+                                    }
+                                }
+
+                                if($isOccupied)
+                                {
+                                    ?>
+                                    <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <th>
+                                        <center>
+                                            <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('09:30:00', '10:30:00')">
+                                                VACANT
+                                            </button>
+                                        </center>
+                                    </th>
+                                    <?php
+                                }
                             }
                             else
                             {
                                 ?>
                                 <th>
                                     <center>
-                                        <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('9:30:00', '10:30:00')">
+                                        <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('09:30:00', '10:30:00')">
                                             VACANT
                                         </button>
                                     </center>
@@ -543,13 +606,40 @@
                         <tr class="bg-light">
                             <th><h6 class="text-center">11:00 AM - 12:00 AM</h6></th>
                             <?php
-                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."' AND Start >= '11:00:00' AND End <= '12:00:00'";
+                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."'";
                             $result = mysqli_query($conn, $sql);
                             if(mysqli_num_rows($result) > 0)
                             {
-                                ?>
-                                <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
-                                <?php
+                                $isOccupied = false;
+
+                                while($row = mysqli_fetch_array($result))
+                                {
+                                    $start = date_create($row["Start"]);
+
+                                    if($start >= date_create("11:00:00") && $start <= date_create("12:00:00"))
+                                    {
+                                        $isOccupied = true;
+                                    }
+                                }
+
+                                if($isOccupied)
+                                {
+                                    ?>
+                                    <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <th>
+                                        <center>
+                                            <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('11:00:00', '12:00:00')">
+                                                VACANT
+                                            </button>
+                                        </center>
+                                    </th>
+                                    <?php
+                                }
                             }
                             else
                             {
@@ -571,13 +661,40 @@
                         <tr class="bg-light">
                             <th><h6 class="text-center">01:00 PM - 02:00 PM</h6></th>
                             <?php
-                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."' AND Start >= '13:00:00' AND End <= '14:00:00'";
+                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."'";
                             $result = mysqli_query($conn, $sql);
                             if(mysqli_num_rows($result) > 0)
                             {
-                                ?>
-                                <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
-                                <?php
+                                $isOccupied = false;
+
+                                while($row = mysqli_fetch_array($result))
+                                {
+                                    $start = date_create($row["Start"]);
+
+                                    if($start >= date_create("13:00:00") && $start <= date_create("14:00:00"))
+                                    {
+                                        $isOccupied = true;
+                                    }
+                                }
+
+                                if($isOccupied)
+                                {
+                                    ?>
+                                    <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <th>
+                                        <center>
+                                            <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('13:00:00', '14:00:00')">
+                                                VACANT
+                                            </button>
+                                        </center>
+                                    </th>
+                                    <?php
+                                }
                             }
                             else
                             {
@@ -585,7 +702,7 @@
                                 <th>
                                     <center>
                                         <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('13:00:00', '14:00:00')">
-                                            VACANT 
+                                            VACANT
                                         </button>
                                     </center>
                                 </th>
@@ -596,13 +713,40 @@
                         <tr class="bg-light">
                             <th><h6 class="text-center">02:30 PM - 03:30 PM</h6></th>
                             <?php
-                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."' AND Start >= '14:30:00' AND End <= '15:30:00'";
+                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."'";
                             $result = mysqli_query($conn, $sql);
                             if(mysqli_num_rows($result) > 0)
                             {
-                                ?>
-                                <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
-                                <?php
+                                $isOccupied = false;
+
+                                while($row = mysqli_fetch_array($result))
+                                {
+                                    $start = date_create($row["Start"]);
+
+                                    if($start >= date_create("14:30:00") && $start <= date_create("15:30:00"))
+                                    {
+                                        $isOccupied = true;
+                                    }
+                                }
+
+                                if($isOccupied)
+                                {
+                                    ?>
+                                    <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <th>
+                                        <center>
+                                            <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('14:30:00', '15:30:00')">
+                                                VACANT
+                                            </button>
+                                        </center>
+                                    </th>
+                                    <?php
+                                }
                             }
                             else
                             {
@@ -621,13 +765,40 @@
                         <tr class="bg-light">
                             <th><h6 class="text-center">04:00 PM - 05:00 PM</h6></th>
                             <?php
-                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."' AND Start >= '16:00:00' AND End <= '17:00:00'";
+                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."'";
                             $result = mysqli_query($conn, $sql);
                             if(mysqli_num_rows($result) > 0)
                             {
-                                ?>
-                                <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
-                                <?php
+                                $isOccupied = false;
+
+                                while($row = mysqli_fetch_array($result))
+                                {
+                                    $start = date_create($row["Start"]);
+
+                                    if($start >= date_create("16:00:00") && $start <= date_create("17:00:00"))
+                                    {
+                                        $isOccupied = true;
+                                    }
+                                }
+
+                                if($isOccupied)
+                                {
+                                    ?>
+                                    <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <th>
+                                        <center>
+                                            <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('16:00:00', '17:00:00')">
+                                                VACANT
+                                            </button>
+                                        </center>
+                                    </th>
+                                    <?php
+                                }
                             }
                             else
                             {
@@ -646,13 +817,40 @@
                         <tr class="bg-light">
                             <th><h6 class="text-center">05:30 PM - 06:30 PM</h6></th>
                             <?php
-                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."' AND Start >= '17:30:00' AND End <= '18:30:00'";
+                            $sql = "SELECT * FROM tbl_appointment WHERE Date = '". date("Y-m-d") ."'";
                             $result = mysqli_query($conn, $sql);
                             if(mysqli_num_rows($result) > 0)
                             {
-                                ?>
-                                <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
-                                <?php
+                                $isOccupied = false;
+
+                                while($row = mysqli_fetch_array($result))
+                                {
+                                    $start = date_create($row["Start"]);
+
+                                    if($start >= date_create("17:30:00") && $start <= date_create("18:30:00"))
+                                    {
+                                        $isOccupied = true;
+                                    }
+                                }
+
+                                if($isOccupied)
+                                {
+                                    ?>
+                                    <th><h6 class="text-center text-danger">OCCUPIED</h6></th>
+                                    <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <th>
+                                        <center>
+                                            <button class="btn btn-sm btn-outline-success" onclick="bookAppointment('17:30:00', '18:30:00')">
+                                                VACANT
+                                            </button>
+                                        </center>
+                                    </th>
+                                    <?php
+                                }
                             }
                             else
                             {
@@ -987,12 +1185,13 @@
             <?php
             if(isset($_SESSION["email"]))
             {
+                
                 $sql = mysqli_query($conn, "SELECT * FROM tbl_patientinfo WHERE Email = '". $_SESSION["email"] ."'");
                 $result = mysqli_fetch_assoc($sql);    
                 ?>
-                var id = <?php echo date("ymd") . $result["Patient_ID"]; ?>;
+                var id = <?php echo date("ymdhms") . $result["Patient_ID"]; ?>;
                 var patientId = "<?php echo $result["Patient_ID"]; ?>";
-                var description = document.getElementById("txtDescription").innerHTML;
+                var description = document.getElementById("txtDescription").value;
                 var date = "<?php echo date("Y-m-d"); ?>";
                 var start = document.getElementById("txtStart").innerHTML;
                 var end = document.getElementById("txtEnd").innerHTML;

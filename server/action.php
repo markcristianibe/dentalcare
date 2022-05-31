@@ -78,6 +78,10 @@
             recordLog($conn, "Added a new patient: " . $firstname . " " . $lastname);
             header("location: ../admin/homepage.php?page=patients");;
         }
+        else
+        {
+            echo mysqli_error($conn);
+        }
     }
 
     //update patient info...
@@ -89,18 +93,30 @@
         $address = mysqli_real_escape_string($conn, $_POST["address"]);
         $email = mysqli_real_escape_string($conn, $_POST["email"]);
         $contact_no = mysqli_real_escape_string($conn, $_POST["contact_no"]);
+        $gender = mysqli_real_escape_string($conn, $_POST["gender"]);
         $birthdate = mysqli_real_escape_string($conn, $_POST["birthdate"]);
         $occupation = mysqli_real_escape_string($conn, $_POST["occupation"]);
         $civil_status = mysqli_real_escape_string($conn, $_POST["civil_status"]);
-        $gender = mysqli_real_escape_string($conn, $_POST["gender"]);
-        $imageName = mysqli_real_escape_string($conn, $_FILES["image"]["name"]);
-        $imageData = mysqli_real_escape_string($conn, file_get_contents($_FILES["image"]["tmp_name"]));
-
-        $sql = "UPDATE tbl_patientinfo SET Firstname = '$firstname', Lastname = '$lastname', Address = '$address', Email = '$email', Contact = '$contact_no', Birthdate = '$birthdate', Occupation = '$occupation', Civil_Status = '$civil_status', Sex = '$gender', Picture = '$imageData' WHERE Patient_ID = '$patientID'";
-        if(mysqli_query($conn, $sql))
+        
+        if(isset($_POST["picture"]))
         {
-            recordLog($conn, "Changed patient information: " . $firstname . " " . $lastname);
-            header("location: ../admin/homepage.php?page=patients");
+            $imageName = mysqli_real_escape_string($conn, $_FILES["[picture]"]["name"]);
+            $imageData = mysqli_real_escape_string($conn, file_get_contents($_FILES["picture"]["tmp_name"]));
+            $sql = "UPDATE tbl_patientinfo SET Firstname = '$firstname', Lastname = '$lastname', Address = '$address', Email = '$email', Contact = '$contact_no', Birthdate = '$birthdate', Occupation = '$occupation', Civil_Status = '$civil_status', Sex = '$gender', Picture = '$imageData' WHERE Patient_ID = '$patientID'";
+            if(mysqli_query($conn, $sql))
+            {
+                recordLog($conn, "Changed patient information: " . $firstname . " " . $lastname);
+                header("location: ../admin/homepage.php?page=patients");
+            }
+        }
+        else
+        {
+            $sql = "UPDATE tbl_patientinfo SET Firstname = '$firstname', Lastname = '$lastname', Address = '$address', Email = '$email', Contact = '$contact_no', Birthdate = '$birthdate', Occupation = '$occupation', Civil_Status = '$civil_status', Sex = '$gender' WHERE Patient_ID = '$patientID'";
+            if(mysqli_query($conn, $sql))
+            {
+                recordLog($conn, "Changed patient information: " . $firstname . " " . $lastname);
+                header("location: ../admin/homepage.php?page=patients");
+            }
         }
     }
 
@@ -175,13 +191,15 @@
     if(isset($_POST["set-appointment"]))
     {
         $date = mysqli_real_escape_string($conn, $_POST["txt-date"]);
-        $start = mysqli_real_escape_string($conn, $_POST["start"]);
-        $end = mysqli_real_escape_string($conn, $_POST["end"]);
+        $startDate = date_create(mysqli_real_escape_string($conn, $_POST["start"]));
+        $endDate = date_create(mysqli_real_escape_string($conn, $_POST["end"]));
+        $start = strval(date_format($startDate, "H:i:s"));
+        $end = strval(date_format($endDate, "H:i:s"));
         $tmp_patientId = explode("-", mysqli_real_escape_string($conn, $_POST["id"]));
         $patientId = $tmp_patientId[2];
 
         $rawDate = date_create($date);
-        $dateRegistered = date_format($rawDate, "ymd");
+        $dateRegistered = date_format($rawDate, "ymdhms");
         $aptid = mysqli_real_escape_string($conn, $dateRegistered . $patientId);
 
         $query = mysqli_query($conn, "SELECT * FROM tbl_appointment WHERE Date = '$date' AND Start = '$start'");
@@ -207,7 +225,7 @@
             }
             else
             {
-                header("location: ../admin/homepage.php?page=appointments&return=0");
+                echo mysqli_error($conn);
             }
         }
     }
@@ -217,8 +235,10 @@
     {
         $aid = mysqli_real_escape_string($conn, $_POST["aid"]);
         $date = mysqli_real_escape_string($conn, $_POST["date"]);
-        $start = mysqli_real_escape_string($conn, $_POST["start"]);
-        $end = mysqli_real_escape_string($conn, $_POST["end"]);
+        $startDate = date_create(mysqli_real_escape_string($conn, $_POST["start"]));
+        $endDate = date_create(mysqli_real_escape_string($conn, $_POST["end"]));
+        $start = strval(date_format($startDate, "H:i:s"));
+        $end = strval(date_format($endDate, "H:i:s"));
 
         $sql = "UPDATE tbl_appointment SET Date = '$date', Start = '$start', End = '$end' WHERE ID = '$aid'";
         if(mysqli_query($conn, $sql))
@@ -246,7 +266,7 @@
     //admit appointment...
     if(isset($_POST["admitApt"]))
     {
-        $sql = "UPDATE tbl_appointment SET Incharge = '". $_SESSION["adminUser"] ."', Status = 'approved' WHERE ID = '".$_POST["admitApt"]."'";
+        $sql = "UPDATE tbl_appointment SET Status = 'approved' WHERE ID = '".$_POST["admitApt"]."'";
         if(mysqli_query($conn, $sql))
         {
             $patientName = mysqli_fetch_assoc(mysqli_query($conn, "SELECT tbl_patientinfo.Firstname, tbl_patientinfo.Lastname from tbl_patientinfo, tbl_appointment WHERE tbl_appointment.ID = '". $_POST["admitApt"] ."' AND tbl_appointment.Patient_ID = tbl_patientinfo.Patient_ID"));
@@ -398,6 +418,20 @@
         else
         {
             header("location: ../admin/homepage.php?page=inventory&tab=medications&error=1");
+        }
+    }
+    
+    if(isset($_POST["action"]) && $_POST["action"] == "delete-medicine-item")
+    {
+        $id = mysqli_real_escape_string($conn, $_POST["productId"]);
+
+        $item = mysqli_query($conn, "SELECT * FROM tbl_medications WHERE Product_ID = '$id'");
+        $row = mysqli_fetch_assoc($item);
+        recordLog($conn, "Removed item from supplies inventory: " . $row["Product_Name"]);
+        $sql = "DELETE FROM tbl_medications WHERE Product_ID = '$id'";
+        if(mysqli_query($conn, $sql))
+        {
+            mysqli_query($conn, "DELETE FROM tbl_batches WHERE Product_ID = '$id'");
         }
     }
 
@@ -581,17 +615,30 @@
     }
 
     //set patient appointment...
-    if(isset($_POST["event"]) && $_POST["event"] == "setPatientAppointment")
+    if(isset($_POST["event"]))
     {
-        $id = mysqli_real_escape_string($conn, $_POST["id"]);
-        $patientId = mysqli_real_escape_string($conn, $_POST["patientId"]);
-        $description = mysqli_real_escape_string($conn, $_POST["description"]);
-        $date = mysqli_real_escape_string($conn, $_POST["date"]);
-        $start = mysqli_real_escape_string($conn, $_POST["start"]);
-        $end = mysqli_real_escape_string($conn, $_POST["end"]);
+        if($_POST["event"] == "setPatientAppointment")
+        {
+            $id = mysqli_real_escape_string($conn, $_POST["id"]);
+            $patientId = mysqli_real_escape_string($conn, $_POST["patientId"]);
+            $description = mysqli_real_escape_string($conn, $_POST["description"]);
+            $date = mysqli_real_escape_string($conn, $_POST["date"]);
+            $startDate = date_create(mysqli_real_escape_string($conn, $_POST["start"]));
+            $endDate = date_create(mysqli_real_escape_string($conn, $_POST["end"]));
+            $start = strval(date_format($startDate, "H:i:s"));
+            $end = strval(date_format($endDate, "H:i:s"));
+            
+            $sql = "INSERT INTO tbl_appointment (ID, Patient_ID, Apt_Description, Date, Start, End, Status) VALUES ('$id', '$patientId', '$description', '$date', '$start', '$end', 'pending')";
+            if(mysqli_query($conn, $sql))
+            {
+                echo $id, $patientId, $description, $date, $start, $end;
+            }
+            else
+            {
+                echo mysqli_error($conn);
+            }
 
-        $sql = "INSERT INTO tbl_appointment (ID, Patient_ID, Description, Date, Start, End, Status) VALUES ('$id', '$patientId', '$description', '$date', '$start', '$end', 'pending')";
-        mysqli_query($conn, $sql);
+        }
     }
 ?>
 
@@ -646,7 +693,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["clientAuth"])) {
             $subject = $subjectName;
             $headers = "MIME-Version: 1.0" . "\r\n";
             $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= 'From: '.$fromEmail.'<'.$fromEmail.'>' . "\r\n".'Reply-To: '.$fromEmail."\r\n" . 'X-Mailer: PHP/' . phpversion();
+            $headers .= 'From: '.$fromEmail.'<markcristianibe@gmail.com>' . "\r\n";
             $message = '<!doctype html>
                     <html lang="en">
                     <head>
@@ -684,14 +731,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["clientAuth"])) {
             header("location: ../index.php?auth=0");
         }
     }
-} else { ?>
-    
-<!-- FORM GOES HERE -->
-<form></form>
+}
 
-<?php } ?>
-
-<?php
 //OTP check...
 if(isset($_POST["clientAuth-OTP"]))
 {
