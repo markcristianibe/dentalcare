@@ -55,6 +55,10 @@ if(!isset($_SESSION["adminUser"]))
           font-size: 3.5rem;
         }
       }
+      
+      .disclaimer{
+        display: none;
+      }
     </style>
     
   </head>

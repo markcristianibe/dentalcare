@@ -162,7 +162,7 @@
                     url: '../server/action.php',
                     data: {
                         productId: id,
-                        action: "delete-supply-item"
+                        action: "delete-medicine-item"
                     },
                     datatype: "text",
                     success: function(){

@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-2">
                             <small>Discount: (%)</small>
-                            <input id="disc" class="form-control" type="number">
+                            <input id="disc" class="form-control" type="number" value="0">
                         </div>
                         <div class="col-md-1">
                             <small class="text-light">.</small>
@@ -182,7 +182,7 @@
         var qty = $("#qty").val();
         var disc = $("#disc").val();
 
-        if(qty > 0)
+        if(qty > 0 && disc != "")
         {
             $.ajax({
                 method: 'post',
@@ -217,7 +217,7 @@
             })
         }
         else {
-            alert("Please input Quantity");
+            alert("Please input required fields");
         }
 
     }
@@ -258,20 +258,28 @@
 
     function createPrescription() {
         var patientId = document.getElementById("txtpatientId").value;
-        $.ajax({
-            method: 'post',
-            url: '../templates/prescription/ajax.php',
-            data: {
-                action: "createPrescription",
-                prescNo: prescNo,
-                patientId: patientId
-            },
-            datatype: "text",
-            success: function(data){
-                alert("Prescription Added to Patient");
-                window.location.href = '../admin/homepage.php?page=prescription';
-            }
-        })
+
+        if(patientId != "")
+        {
+            $.ajax({
+                method: 'post',
+                url: '../templates/prescription/ajax.php',
+                data: {
+                    action: "createPrescription",
+                    prescNo: prescNo,
+                    patientId: patientId
+                },
+                datatype: "text",
+                success: function(data){
+                    alert("Prescription Added to Patient");
+                    window.location.href = '../admin/homepage.php?page=prescription';
+                }
+            })
+        }
+        else
+        {
+            alert("Please Select a Customer");
+        }
     }
 
 </script>

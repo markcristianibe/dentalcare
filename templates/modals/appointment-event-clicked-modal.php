@@ -46,11 +46,23 @@
             <div id="services" class="container" style="border: 1px solid black; margin: 0; padding: 5px 15px; border-radius: 10px; height: 100px">
               <ul> 
                 <?php
-                  $query = "SELECT tbl_services.Service_Description FROM tbl_services, tbl_appointmentservice WHERE Appointment_ID = '$id' AND tbl_services.Service_ID = tbl_Appointmentservice.Service_ID";
+                  $query = "SELECT tbl_services.Service_Description FROM tbl_services, tbl_appointmentservice WHERE Appointment_ID = '$id' AND tbl_services.Service_ID = tbl_appointmentservice.Service_ID";
                   $output = mysqli_query($conn, $query);
-                  while($row1 = mysqli_fetch_array($output))
+                  if(mysqli_num_rows($output) > 0)
                   {
-                    echo '<li>'. $row1["Service_Description"] .'</li>';
+                    while($row1 = mysqli_fetch_array($output))
+                    {
+                      echo '<li>'. $row1["Service_Description"] .'</li>';
+                    }
+                  }
+                  else
+                  {
+                    $query = "SELECT * FROM tbl_appointment WHERE ID = '$id'";
+                    $output = mysqli_query($conn, $query);
+                    while($row1 = mysqli_fetch_array($output))
+                    {
+                      echo '<li>'. $row1["Apt_Description"] .'</li>';
+                    }
                   }
                 ?>
               </ul>

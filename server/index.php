@@ -11,6 +11,11 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <title>Dental Care</title>
+    <style>
+        .disclaimer{
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <?php

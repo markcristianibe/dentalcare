@@ -118,6 +118,7 @@ $pid = "PID-" . $dateRegistered . "-" . $row["Patient_ID"];
                         <?php
                     }
                 ?>
+
                 <a id="edit-btn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#browseImage"><i class="fa fa-pen"></i> Change Photo</a>
             </div>
 
@@ -129,7 +130,7 @@ $pid = "PID-" . $dateRegistered . "-" . $row["Patient_ID"];
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <input id="img-btn" type="file" name="image" id="image" class="form-control btn-secondary" accept=".png, .jpg, .jpeg">
+                            <input id="img-btn" type="file" name="picture" id="image" class="form-control btn-secondary" accept=".png, .jpg, .jpeg">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="defaultImg()">Cancel</button>
@@ -159,6 +160,22 @@ $pid = "PID-" . $dateRegistered . "-" . $row["Patient_ID"];
         </div>
     </form>
 </div>
+
+<script>
+  var retriveImg = function(event) {
+    var reader = new FileReader();
+    reader.onload = function(){
+      var output = document.getElementById('user-profile');
+      output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
+
+  function defaultImg()
+  {
+      document.getElementById("user-profile").src = "../img/user-1.png";
+  }
+</script>
 
 <style>
     small{
